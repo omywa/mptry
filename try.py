@@ -1,6 +1,6 @@
 import numpy as np
 
-# generate random 10-dim vector
+# generate random n-dim(col) vector
 row = int(raw_input("Total number of points:"))
 col = int(raw_input("Demension of each vectors:"))
 a=[[0 for r in range(row)]for c in range(col)]
