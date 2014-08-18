@@ -1,0 +1,25 @@
+//读取出奇怪的数据
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    FILE *fp;
+    int ch;
+    fp=fopen("test.bin","r");
+
+    if (fp==NULL)
+    {
+        printf("failed.\n");
+        return 1;
+    }
+    int i;
+ //   while((ch=fgetc(fp))!=EOF)
+    for(i=0;i<10;i++)
+    {
+        printf("%02x ",(unsigned char)ch) ;
+    }
+    fclose(fp);
+    return 0;
+
+}
