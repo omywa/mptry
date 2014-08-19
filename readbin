@@ -14,7 +14,6 @@ int main(int argc, char *argv[])
         return 1;
     }
     int i;
- //   while((ch=fgetc(fp))!=EOF)
     for(i=0;i<10;i++)
     {
         printf("%02x ",(unsigned char)ch) ;
