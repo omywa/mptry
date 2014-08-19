@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char *argv[])
+{
+    FILE *fp;
+    float **a;
+    int i,j;
+    int flen;
+    //a = (float *)malloc(10 * sizeof(float));
+    fp = fopen("test.bin","rb");
+
+    if (fp == NULL)
+    {
+        printf("Open failed.\n");
+        return 1;
+    }
+    else
+    {
+        fseek(fp,0L,SEEK_END);
+        flen = ftell(fp);
+        printf("file length:%d\n",flen);
+        fseek(fp,0L,SEEK_SET);
+
+        a = (float **)malloc((flen/4)* sizeof(float *));
+        if(a == NULL)
+        {
+            printf("malloc failed.\n");
+            fclose(fp);
+            return 0;
+        }
+        for(i=0;i<flen/4;i++)
+        {
+            for(j=0;j<60;j++)
+            {
+                fscanf(fp,"%f",&a[i][j]);
+                //fread(a[i][j],sizeof(float),1,fp);
+                printf("%f,",a[i][j]);
+            }
+            printf("\n");
+        }
+
+    }
+
+    free(a);
+    fclose(fp);
+    return 0;
+}
