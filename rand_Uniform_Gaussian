@@ -1,0 +1,66 @@
+// randuab-->U~(a,b)
+// randgs01-->N~(0,1)
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+
+# define W 100 //均匀分布区间为0~W
+# define PI 3.141593
+double randuab(int a,int b)
+{
+    double u_rand,uab_rand;
+    srand((unsigned)time(0));//seed
+    u_rand = rand()/(double)RAND_MAX;//U~(0,1)
+    uab_rand = ((b-a+1)*u_rand)+a;//U~(a,b)
+    return(uab_rand);
+}
+//G指向生成随机数的指针，count随机数个数
+double randgs01(int count, double *G)
+{
+    int i;
+    double U1,U2;
+    srand((unsigned)time(0));
+    for(i=0;i<count;i=i+2)
+    {
+        //生成U~(0,1)随机数
+        U1 = rand()/(double)RAND_MAX;
+        U2 = rand()/(double)RAND_MAX;
+        //生成标准正态分布的随机数G1
+        G[i]=sqrt(-2*log(U1))*sin(2*PI*U2);
+        //生成N~(a,b)的随机数G1
+        //G[i]=sqrt(b)*G[i]+a;
+
+        //生成标准正态分布的随机数G2
+        G[i+1]=sqrt(-2*log(U1))*cos(2*PI*U2);
+        //生成N~(a,b)的随机数G2
+        //G[i+1]=sqrt(b)*G[i+1]+a;
+    }
+    return(1);
+}
+int main(int argc, char *argv[])
+{
+    double u = randuab(0,W);
+    printf("%13.7f\n",u);
+
+    int count = 100;
+    int i,j;
+    double *G = (double *)malloc(count*sizeof(double));
+    if(G==NULL)
+    {
+        printf("Memory alloc failed.\n");
+        exit(0);
+    }
+    randgs01(count,G);
+    for(i=0;i<20;i++)
+    {
+        for(j=0;j<5;j++)
+        {
+            printf("%13.7f",G[i*5+j]);
+        }
+        printf("\n");
+    }
+
+
+    return 0;
+}
