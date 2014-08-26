@@ -1,0 +1,118 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <math.h>
+
+# define W 4 //均匀分布区间为0~W
+# define PI 3.141593
+# define L 8   //number of hash tables
+# define M 14  //number of hash functions
+// randuab-->U~(a,b)
+float randuab(int a,int b)
+{
+    float u_rand,uab_rand;
+    srand((unsigned)time(0));//seed
+    u_rand = rand()/(float)RAND_MAX;//U~(0,1)
+    uab_rand = ((b-a+1)*u_rand)+a;//U~(a,b)
+    return(uab_rand);
+}
+
+float randgs01(int count, float *G)
+{
+    int i;
+    float U1,U2;
+    srand((unsigned)time(0));
+    for(i=0;i<count;i=i+2)
+    {
+        //生成U~(0,1)随机数
+        U1 = rand()/(float)RAND_MAX;
+        U2 = rand()/(float)RAND_MAX;
+        //生成标准正态分布的随机数G1
+        G[i]=sqrt(-2*log(U1))*sin(2*PI*U2);
+        //生成标准正态分布的随机数G2
+        G[i+1]=sqrt(-2*log(U1))*cos(2*PI*U2);
+
+    }
+    return(1);
+}
+
+typedef struct Rand_Gs_Uni
+{
+    float a[60];
+    float b;
+}rand_gs_uni;
+
+
+float hsh(float a[60];float b)
+{
+    float h=b;
+    int i;
+    for(i=0;i<60;i++)
+    {
+        h+=a[i]*v[i]
+    }
+    h=h/W;
+    return h;
+}
+
+
+
+int main(int argc, char *argv[])
+{
+    int i,j;
+    int count = 60;
+    float *G = (float *)malloc(count*sizeof(float));
+    if(G==NULL)
+    {
+        printf("Memory alloc failed.\n");
+        exit(0);
+    }
+    randgs01(count,G);
+    
+    //hash family
+    float **H;
+    H = (float **)malloc(L * sizeof(float *));
+    for(i=0;i<L;i++)
+    {
+        H[i] = (float *)malloc(M * sizeof(float *));
+    }
+    if(H == NULL)
+    {
+        printf("malloc failed.\n");
+        return 0;
+    }
+    float h=hsh(G,randuab(0,W));
+    for(i=0;i<L;i++)
+    {
+        for(j=0;j<M;j++)
+        {
+            H[i][j]=??;
+        }
+    }
+
+
+
+
+    rand_gs_uni gs_uni;
+    
+
+    //赋值
+    for(i=0;i<60;i++)
+    {
+        gs_uni.a[i]=G[i];
+        gs_uni.b=randuab(0,W);
+    }
+
+    //print
+    for(i=0;i<12;i++)
+    {
+        for(j=0;j<5;j++)
+        {
+            printf("%13.7f",gs_uni.a[i*5+j]);
+        }
+        printf("\n");
+    }
+    printf("b=%13.7f",gs_uni.b);
+
+    return 0;
+}
